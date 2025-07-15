@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anmol | Graphic Designer & Web Developer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      scroll-behavior: smooth;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    canvas#bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      display: block;
+    }
+
+    nav {
+      position: fixed;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #f4d03f;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .nav-links li a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      left: 0;
+      bottom: -4px;
+      background: #f4d03f;
+      transition: 0.3s;
+    }
+
+    .nav-links li a:hover::after {
+      width: 100%;
+    }
+
+    .hire-btn {
+      padding: 0.5rem 1rem;
+      background: #f4d03f;
+      color: #000 !important;
+      border-radius: 25px;
+      transition: 0.3s;
+    }
+
+    .hire-btn:hover {
+      background: #d4ac0d;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      margin: 4px;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: absolute;
+        right: 0;
+        top: 70px;
+        background: rgba(0, 0, 0, 0.95);
+        flex-direction: column;
+        width: 200px;
+        gap: 1rem;
+        padding: 1rem;
+        display: none;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 2rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    .hero h1 span {
+      color: #000;
+      text-transform: uppercase;
+      font-weight: 900;
+      background: #f4d03f;
+      padding: 0 0.5rem;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      font-family: 'Brush Script MT', cursive;
+      margin: 0;
+      color: #fff;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin-top: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .hero p span {
+      color: #f4d03f;
+    }
+
+    .hero .cv-btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.7rem 1.5rem;
+      background: #f4d03f;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: 0.3s;
+    }
+
+    .hero .cv-btn:hover {
+      background: #d4ac0d;
+    }
+
+    section {
+      padding: 100px 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    section h2 {
+      font-size: 2.5rem;
+      color: #f4d03f;
+      margin-bottom: 1rem;
+    }
+
+    section p {
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+      color: #ccc;
+    }
+
+    .contact-form {
+      margin-top: 2rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .contact-form button {
+      padding: 0.7rem 1.5rem;
+      background: #f4d03f;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contact-form button:hover {
+      background: #d4ac0d;
+    }
+
+    .social-icons {
+      margin-top: 2rem;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin: 0 10px;
+      color: #f4d03f;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Animation Canvas -->
+  <canvas id="bg"></canvas>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">Anmol</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact" class="hire-btn">Contact</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1><span>Graphic Designer</span> & <span>Web Developer</span></h1>
+    <h2>Anmol</h2>
+    <p>With a solid <span>7-year</span> background in graphic design and web development, I craft creative solutions that <span>solve problems</span>, drive results, and look <span>amazing</span>. Let’s build something great together!</p>
+    <a href="Anmol_CV.pdf" class="cv-btn" download>Download CV</a>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I am Anmol, a passionate Graphic Designer and Web Developer dedicated to creating modern, user-friendly, and impactful designs. I combine creativity with functionality to deliver stunning visuals and high-performance websites.</p>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <h2>Skills</h2>
+    <p>Graphic Design, Branding, UI/UX Design, HTML, CSS, JavaScript, Responsive Web Design, Social Media Assets, Creative Campaigns.</p>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <p>From brand identities and marketing designs to fully functional websites, I have delivered a wide range of projects for clients across different industries. (Add your project links and images here!)</p>
+  </section>    
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Let’s work together! Reach out by filling the form below or connect with me on social media.</p>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <div class="social-icons">
+      <a href="#" target="_blank">🔗</a>
+      <a href="#" target="_blank"></a>
+      <a href="#" target="_blank"></a>
+    </div>
+  </section>
+
+  <script>
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('active');
+    }
+
+    // Canvas lines animation
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    const lines = [];
+    for (let i = 0; i < 100; i++) {
+      lines.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        length: Math.random() * 100 + 20,
+        speed: Math.random() * 1 + 0.5,
+        angle: Math.random() * Math.PI * 2
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+      ctx.lineWidth = 1;
+
+      lines.forEach(line => {
+        ctx.beginPath();
+        ctx.moveTo(line.x, line.y);
+        ctx.lineTo(
+          line.x + Math.cos(line.angle) * line.length,
+          line.y + Math.sin(line.angle) * line.length
+        );
+        ctx.stroke();
+
+        line.x += Math.cos(line.angle) * line.speed;
+        line.y += Math.sin(line.angle) * line.speed;
+
+        if (line.x < 0 || line.x > canvas.width || line.y < 0 || line.y > canvas.height) {
+          line.x = Math.random() * canvas.width;
+          line.y = Math.random() * canvas.height;
+          line.angle = Math.random() * Math.PI * 2;
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+
+</body>
+</html>
